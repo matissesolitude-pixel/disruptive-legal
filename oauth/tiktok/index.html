@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Retour TikTok</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f1efea;color:#1d1f24;font:16px/1.5 system-ui,-apple-system,sans-serif;padding:0 18px}
+main{max-width:520px}
+h1{font-size:22px;margin:0 0 8px}
+a{color:#1d1f24}
+</style>
+</head>
+<body>
+<main>
+  <h1>Retour de l'autorisation TikTok</h1>
+  <p id="msg">Transmission au quai de publication sur le Mac…</p>
+</main>
+<script>
+// Relais vers le serveur MONT local : seuls code, state et error sont transmis.
+(function () {
+  var entree = new URLSearchParams(location.search), sortie = new URLSearchParams();
+  ['code', 'state', 'error', 'error_description'].forEach(function (k) { if (entree.has(k)) sortie.set(k, entree.get(k)); });
+  if (!sortie.has('state')) {
+    document.getElementById('msg').textContent = "Cette page ne sert qu'au retour d'une autorisation lancée depuis le hangar MONT.";
+    return;
+  }
+  var cible = 'http://127.0.0.1:8766/oauth/tiktok?' + sortie.toString();
+  document.getElementById('msg').innerHTML = 'Si rien ne se passe, ce navigateur n\'est pas celui du Mac qui fait tourner le hangar. <a id="lien">Continuer</a>.';
+  document.getElementById('lien').href = cible;
+  location.replace(cible);
+})();
+</script>
+</body>
+</html>
